@@ -69,21 +69,26 @@ code{background:var(--surface-2);padding:2px 6px;border-radius:6px}
 </style>
 </head>
 <body>
-
+<div class="wrapper">
+  <header class="hero">
+    <div class="hero-top">
+      <div>
+        <div class="logo">
+          <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-label="Fortia">
+            <rect width="36" height="36" rx="8" fill="rgba(255,255,255,.15)"/>
+            <path d="M18 6 L28 11 L28 20 C28 25 23 29 18 31 C13 29 8 25 8 20 L8 11 Z" stroke="white" stroke-width="2" fill="rgba(255,255,255,.08)"/>
+            <path d="M14 18 L17 21 L22 15" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <strong style="letter-spacing:.08em;text-transform:uppercase">Fortia</strong>
+        </div>
+        <h1>Formulario de prueba de usuario</h1>
+        <p>Tu opinión es fundamental para mejorar el dispositivo. No hay respuestas correctas o incorrectas — evaluamos el producto, no a ti.</p>
+      </div>
+      <button class="theme-toggle" data-theme-toggle aria-label="Cambiar tema">◐</button>
+    </div>
   </header>
 
   <div class="card">
-    <section class="section">
-      <h2>Antes de publicar</h2>
-      <p class="lead">GitHub Pages no guarda respuestas por sí solo. Necesitas conectar este formulario a un endpoint externo como Web3Forms o Formspree.</p>
-      <div class="setup">
-        <p><strong>Paso 1.</strong> Crea una cuenta en <a href="https://web3forms.com/" target="_blank" rel="noopener noreferrer">Web3Forms</a> o <a href="https://formspree.io/" target="_blank" rel="noopener noreferrer">Formspree</a>.</p>
-        <p><strong>Paso 2.</strong> Reemplaza en el código el valor de <code>YOUR_ACCESS_KEY</code> por tu clave real.</p>
-        <p><strong>Paso 3.</strong> Súbelo a un repositorio y activa GitHub Pages.</p>
-        <p><strong>Paso 4.</strong> Las respuestas te llegarán por correo o dashboard según el servicio que elijas.</p>
-      </div>
-    </section>
-
     <form id="fortia-form" action="https://api.web3forms.com/submit" method="POST">
       <input type="hidden" name="access_key" value="998c4c2b-245c-4e6b-997c-8dd2a009c241">
       <input type="hidden" name="subject" value="Nueva respuesta - Prueba de usuario Fortia">
@@ -254,7 +259,6 @@ code{background:var(--surface-2);padding:2px 6px;border-radius:6px}
       </div>
     </form>
 
-    <p class="footer-note">Consejo: si prefieres ver respuestas en una tabla, puedes usar Formspree dashboard o conectar un endpoint a Google Sheets mediante otro servicio intermedio.</p>
   </div>
 </div>
 <script>
