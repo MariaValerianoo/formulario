@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>fortia-formulario-github</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300..700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<style>
+:root,[data-theme="light"]{
+  --bg:#f7f6f2;--surface:#f9f8f5;--surface-2:#fbfbf9;--offset:#f3f0ec;--border:#d4d1ca;--divider:#dcd9d5;
+  --text:#28251d;--muted:#7a7974;--primary:#01696f;--primary-hover:#0c4e54;--primary-soft:#cedcd8;
+  --success:#437a22;--success-soft:#d4dfcc;--error:#a12c7b;
+  --font-body:'Inter',sans-serif;--font-display:'Instrument Serif',Georgia,serif;
+  --xs:clamp(.75rem,.7rem + .25vw,.875rem);--sm:clamp(.875rem,.8rem + .35vw,1rem);--base:clamp(1rem,.95rem + .25vw,1.125rem);--lg:clamp(1.125rem,1rem + .75vw,1.5rem);--xl:clamp(1.5rem,1.2rem + 1.25vw,2.25rem);
+  --s1:.25rem;--s2:.5rem;--s3:.75rem;--s4:1rem;--s5:1.25rem;--s6:1.5rem;--s8:2rem;--s10:2.5rem;--s12:3rem;--s16:4rem;
+  --r-sm:.375rem;--r-md:.5rem;--r-lg:.75rem;--r-xl:1rem;--r-full:999px;
+  --shadow:0 4px 12px rgba(0,0,0,.08);
+}
+[data-theme="dark"]{
+  --bg:#171614;--surface:#1c1b19;--surface-2:#201f1d;--offset:#1d1c1a;--border:#393836;--divider:#262523;
+  --text:#cdccca;--muted:#9a9996;--primary:#4f98a3;--primary-hover:#227f8b;--primary-soft:#313b3b;
+  --success:#6daa45;--success-soft:#3a4435;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--font-body);background:var(--bg);color:var(--text);line-height:1.6;font-size:var(--base);min-height:100vh}
+button,input,textarea,select{font:inherit}
+img,svg{max-width:100%;display:block}
+.wrapper{max-width:820px;margin:0 auto;padding:var(--s8) var(--s4) var(--s16)}
+.hero{background:var(--primary);color:#fff;border-radius:var(--r-xl);padding:var(--s8);position:relative;overflow:hidden;margin-bottom:var(--s6)}
+.hero::after{content:'';position:absolute;right:-60px;top:-60px;width:220px;height:220px;border-radius:50%;background:rgba(255,255,255,.08)}
+.hero-top{display:flex;justify-content:space-between;gap:var(--s4);align-items:flex-start}
+.logo{display:flex;align-items:center;gap:var(--s3);margin-bottom:var(--s4)}
+.hero h1{font-family:var(--font-display);font-weight:400;font-size:var(--xl);margin-bottom:var(--s2)}
+.hero p{font-size:var(--sm);max-width:58ch;color:rgba(255,255,255,.88)}
+.theme-toggle{border:1px solid rgba(255,255,255,.25);background:rgba(255,255,255,.12);color:#fff;border-radius:var(--r-full);padding:10px;cursor:pointer}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-xl);padding:var(--s8);box-shadow:var(--shadow)}
+.section{margin-bottom:var(--s6)}
+.section h2{font-family:var(--font-display);font-weight:400;font-size:var(--lg);margin-bottom:var(--s1)}
+.section p.lead{font-size:var(--sm);color:var(--muted);margin-bottom:var(--s5)}
+.notice{background:var(--offset);border:1px solid var(--border);padding:var(--s5);border-radius:var(--r-lg);margin-bottom:var(--s6);font-size:var(--sm);color:var(--muted)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--s4)}
+@media(max-width:640px){.grid{grid-template-columns:1fr}.hero-top{flex-direction:column}}
+.field{margin-bottom:var(--s5)}
+.field label{display:block;font-size:var(--sm);font-weight:600;margin-bottom:var(--s2)}
+.hint{font-size:var(--xs);color:var(--muted);margin-bottom:var(--s2)}
+input[type=text],input[type=number],textarea,select{width:100%;padding:14px 16px;border-radius:var(--r-md);border:1px solid var(--border);background:var(--surface-2);color:var(--text)}
+textarea{min-height:90px;resize:vertical}
+input:focus,textarea:focus,select:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(1,105,111,.12)}
+.choices{display:flex;flex-wrap:wrap;gap:var(--s3)}
+.choices label{display:flex;align-items:center;gap:8px;border:1px solid var(--border);border-radius:var(--r-md);padding:10px 14px;background:var(--surface-2);cursor:pointer}
+.scale{display:grid;grid-template-columns:repeat(5,1fr);gap:var(--s2)}
+.scale label{display:flex;flex-direction:column;align-items:center;gap:6px;text-align:center;font-size:var(--xs);color:var(--muted)}
+.scale input{display:none}
+.bubble{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;border:2px solid var(--border);background:var(--surface-2);font-weight:700}
+.scale label input:checked + .bubble{background:var(--primary);border-color:var(--primary);color:#fff}
+.task{border-top:1px solid var(--divider);padding-top:var(--s6);margin-top:var(--s6)}
+.badge{display:inline-flex;align-items:center;gap:8px;background:var(--primary-soft);color:var(--primary);padding:6px 12px;border-radius:var(--r-full);font-size:var(--xs);font-weight:700;letter-spacing:.05em;text-transform:uppercase;margin-bottom:var(--s4)}
+.submit-wrap{display:flex;flex-direction:column;gap:var(--s3);margin-top:var(--s8)}
+button.submit{background:var(--primary);color:#fff;border:none;border-radius:var(--r-md);padding:14px 18px;font-weight:600;cursor:pointer}
+button.submit:hover{background:var(--primary-hover)}
+.setup{background:var(--offset);border:1px dashed var(--border);border-radius:var(--r-lg);padding:var(--s5);font-size:var(--sm);color:var(--muted)}
+code{background:var(--surface-2);padding:2px 6px;border-radius:6px}
+.success,.errorbox{display:none;margin-top:var(--s5);padding:var(--s4);border-radius:var(--r-lg);font-size:var(--sm)}
+.success{background:var(--success-soft);color:var(--success)}
+.errorbox{background:rgba(161,44,123,.12);color:var(--error)}
+.footer-note{margin-top:var(--s6);font-size:var(--xs);color:var(--muted)}
+</style>
+</head>
+<body>
+<div class="wrapper">
+  <header class="hero">
+    <div class="hero-top">
+      <div>
+        <div class="logo">
+          <svg width="36" height="36" viewBox="0 0 36 36" fill="none" aria-label="Fortia">
+            <rect width="36" height="36" rx="8" fill="rgba(255,255,255,.15)"/>
+            <path d="M18 6 L28 11 L28 20 C28 25 23 29 18 31 C13 29 8 25 8 20 L8 11 Z" stroke="white" stroke-width="2" fill="rgba(255,255,255,.08)"/>
+            <path d="M14 18 L17 21 L22 15" stroke="white" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <strong style="letter-spacing:.08em;text-transform:uppercase">Fortia</strong>
+        </div>
+        <h1>Formulario de prueba de usuario</h1>
+        <p>Versión lista para publicar en GitHub Pages. Las respuestas se envían a un servicio externo compatible con sitios estáticos.</p>
+      </div>
+      <button class="theme-toggle" data-theme-toggle aria-label="Cambiar tema">◐</button>
+    </div>
+  </header>
+
+  <div class="card">
+    <section class="section">
+      <h2>Antes de publicar</h2>
+      <p class="lead">GitHub Pages no guarda respuestas por sí solo. Necesitas conectar este formulario a un endpoint externo como Web3Forms o Formspree.</p>
+      <div class="setup">
+        <p><strong>Paso 1.</strong> Crea una cuenta en <a href="https://web3forms.com/" target="_blank" rel="noopener noreferrer">Web3Forms</a> o <a href="https://formspree.io/" target="_blank" rel="noopener noreferrer">Formspree</a>.</p>
+        <p><strong>Paso 2.</strong> Reemplaza en el código el valor de <code>YOUR_ACCESS_KEY</code> por tu clave real.</p>
+        <p><strong>Paso 3.</strong> Súbelo a un repositorio y activa GitHub Pages.</p>
+        <p><strong>Paso 4.</strong> Las respuestas te llegarán por correo o dashboard según el servicio que elijas.</p>
+      </div>
+    </section>
+
+    <form id="fortia-form" action="https://api.web3forms.com/submit" method="POST">
+      <input type="hidden" name="access_key" value="YOUR_ACCESS_KEY">
+      <input type="hidden" name="subject" value="Nueva respuesta - Prueba de usuario Fortia">
+      <input type="hidden" name="from_name" value="Formulario Fortia GitHub">
+      <input type="checkbox" name="botcheck" style="display:none">
+
+      <section class="section">
+        <h2>Datos del participante</h2>
+        <p class="lead">Información básica de caracterización.</p>
+        <div class="notice"><strong>Consentimiento:</strong> Tu participación es voluntaria y la información se usará con fines académicos para evaluar la interacción con el prototipo Fortia.</div>
+        <div class="grid">
+          <div class="field">
+            <label for="participante">ID del participante</label>
+            <input type="text" id="participante" name="ID_participante" placeholder="P01" required>
+          </div>
+          <div class="field">
+            <label for="edad">Edad</label>
+            <input type="number" id="edad" name="Edad" min="10" max="100" placeholder="34" required>
+          </div>
+        </div>
+        <div class="field">
+          <label>Género</label>
+          <div class="choices">
+            <label><input type="radio" name="Genero" value="Hombre" required> Hombre</label>
+            <label><input type="radio" name="Genero" value="Mujer"> Mujer</label>
+            <label><input type="radio" name="Genero" value="No binario"> No binario</label>
+            <label><input type="radio" name="Genero" value="Prefiero no decir"> Prefiero no decir</label>
+          </div>
+        </div>
+        <div class="field">
+          <label>Nivel de conocimiento tecnológico</label>
+          <div class="choices">
+            <label><input type="radio" name="Nivel_tecnologico" value="Basico" required> Básico</label>
+            <label><input type="radio" name="Nivel_tecnologico" value="Intermedio"> Intermedio</label>
+            <label><input type="radio" name="Nivel_tecnologico" value="Avanzado"> Avanzado</label>
+          </div>
+        </div>
+        <div class="field">
+          <label for="contexto">Contexto de movilidad o relación con el dispositivo</label>
+          <textarea id="contexto" name="Contexto_movil" placeholder="Ej. usuario potencial, cuidador, familiar..."></textarea>
+        </div>
+      </section>
+
+      <section class="section task">
+        <span class="badge">Tarea 1</span>
+        <h2>Activar el botón de emergencia</h2>
+        <p class="lead">Presiona el botón de pánico del chaleco para simular una alerta.</p>
+        <div class="field">
+          <label>¿Completaste la tarea?</label>
+          <div class="choices">
+            <label><input type="radio" name="T1_completo" value="Si" required> Sí</label>
+            <label><input type="radio" name="T1_completo" value="No"> No</label>
+          </div>
+        </div>
+        <div class="grid">
+          <div class="field"><label for="t1_tiempo">Tiempo (segundos)</label><input type="number" id="t1_tiempo" name="T1_tiempo_seg" min="0" required></div>
+          <div class="field"><label for="t1_error">Errores</label><input type="number" id="t1_error" name="T1_errores" min="0" required></div>
+        </div>
+        <div class="field">
+          <label>Satisfacción</label>
+          <div class="scale">
+            <label><input type="radio" name="T1_satisfaccion" value="1" required><span class="bubble">1</span><span>Muy baja</span></label>
+            <label><input type="radio" name="T1_satisfaccion" value="2"><span class="bubble">2</span></label>
+            <label><input type="radio" name="T1_satisfaccion" value="3"><span class="bubble">3</span><span>Media</span></label>
+            <label><input type="radio" name="T1_satisfaccion" value="4"><span class="bubble">4</span></label>
+            <label><input type="radio" name="T1_satisfaccion" value="5"><span class="bubble">5</span><span>Muy alta</span></label>
+          </div>
+        </div>
+        <div class="field"><label for="t1_obs">Observaciones</label><textarea id="t1_obs" name="T1_observaciones"></textarea></div>
+      </section>
+
+      <section class="section task">
+        <span class="badge">Tarea 2</span>
+        <h2>Verificar alerta de ritmo cardíaco</h2>
+        <p class="lead">Consulta el estado del monitoreo cardíaco e identifica si existe una alerta activa.</p>
+        <div class="field">
+          <label>¿Completaste la tarea?</label>
+          <div class="choices">
+            <label><input type="radio" name="T2_completo" value="Si" required> Sí</label>
+            <label><input type="radio" name="T2_completo" value="No"> No</label>
+          </div>
+        </div>
+        <div class="grid">
+          <div class="field"><label for="t2_tiempo">Tiempo (segundos)</label><input type="number" id="t2_tiempo" name="T2_tiempo_seg" min="0" required></div>
+          <div class="field"><label for="t2_error">Errores</label><input type="number" id="t2_error" name="T2_errores" min="0" required></div>
+        </div>
+        <div class="field">
+          <label>Satisfacción</label>
+          <div class="scale">
+            <label><input type="radio" name="T2_satisfaccion" value="1" required><span class="bubble">1</span><span>Muy baja</span></label>
+            <label><input type="radio" name="T2_satisfaccion" value="2"><span class="bubble">2</span></label>
+            <label><input type="radio" name="T2_satisfaccion" value="3"><span class="bubble">3</span><span>Media</span></label>
+            <label><input type="radio" name="T2_satisfaccion" value="4"><span class="bubble">4</span></label>
+            <label><input type="radio" name="T2_satisfaccion" value="5"><span class="bubble">5</span><span>Muy alta</span></label>
+          </div>
+        </div>
+        <div class="field"><label for="t2_obs">Observaciones</label><textarea id="t2_obs" name="T2_observaciones"></textarea></div>
+      </section>
+
+      <section class="section task">
+        <span class="badge">Tarea 3</span>
+        <h2>Responder al chequeo de conciencia</h2>
+        <p class="lead">Cuando el sistema emita la señal de seguimiento, responde correctamente con el botón indicado.</p>
+        <div class="field">
+          <label>¿Completaste la tarea?</label>
+          <div class="choices">
+            <label><input type="radio" name="T3_completo" value="Si" required> Sí</label>
+            <label><input type="radio" name="T3_completo" value="No"> No</label>
+          </div>
+        </div>
+        <div class="grid">
+          <div class="field"><label for="t3_tiempo">Tiempo (segundos)</label><input type="number" id="t3_tiempo" name="T3_tiempo_seg" min="0" required></div>
+          <div class="field"><label for="t3_error">Errores</label><input type="number" id="t3_error" name="T3_errores" min="0" required></div>
+        </div>
+        <div class="field">
+          <label>Satisfacción</label>
+          <div class="scale">
+            <label><input type="radio" name="T3_satisfaccion" value="1" required><span class="bubble">1</span><span>Muy baja</span></label>
+            <label><input type="radio" name="T3_satisfaccion" value="2"><span class="bubble">2</span></label>
+            <label><input type="radio" name="T3_satisfaccion" value="3"><span class="bubble">3</span><span>Media</span></label>
+            <label><input type="radio" name="T3_satisfaccion" value="4"><span class="bubble">4</span></label>
+            <label><input type="radio" name="T3_satisfaccion" value="5"><span class="bubble">5</span><span>Muy alta</span></label>
+          </div>
+        </div>
+        <div class="field"><label for="t3_obs">Observaciones</label><textarea id="t3_obs" name="T3_observaciones"></textarea></div>
+      </section>
+
+      <section class="section task">
+        <h2>Percepción general</h2>
+        <p class="lead">Evaluación global del chaleco Fortia.</p>
+        <div class="field">
+          <label>Satisfacción general</label>
+          <div class="scale">
+            <label><input type="radio" name="Satisfaccion_general" value="1" required><span class="bubble">1</span></label>
+            <label><input type="radio" name="Satisfaccion_general" value="2"><span class="bubble">2</span></label>
+            <label><input type="radio" name="Satisfaccion_general" value="3"><span class="bubble">3</span></label>
+            <label><input type="radio" name="Satisfaccion_general" value="4"><span class="bubble">4</span></label>
+            <label><input type="radio" name="Satisfaccion_general" value="5"><span class="bubble">5</span></label>
+          </div>
+        </div>
+        <div class="field">
+          <label>Comodidad física del chaleco</label>
+          <div class="scale">
+            <label><input type="radio" name="Comodidad" value="1" required><span class="bubble">1</span></label>
+            <label><input type="radio" name="Comodidad" value="2"><span class="bubble">2</span></label>
+            <label><input type="radio" name="Comodidad" value="3"><span class="bubble">3</span></label>
+            <label><input type="radio" name="Comodidad" value="4"><span class="bubble">4</span></label>
+            <label><input type="radio" name="Comodidad" value="5"><span class="bubble">5</span></label>
+          </div>
+        </div>
+        <div class="field">
+          <label>¿Sentiste mayor seguridad usando el dispositivo?</label>
+          <div class="choices">
+            <label><input type="radio" name="Seguridad_percibida" value="Si_mucho" required> Sí, mucho más</label>
+            <label><input type="radio" name="Seguridad_percibida" value="Un_poco"> Un poco más</label>
+            <label><input type="radio" name="Seguridad_percibida" value="Igual"> Igual</label>
+            <label><input type="radio" name="Seguridad_percibida" value="No"> No</label>
+          </div>
+        </div>
+        <div class="field"><label for="recomendaria">¿Lo recomendarías?</label><textarea id="recomendaria" name="Recomendacion"></textarea></div>
+        <div class="field"><label for="mejora">¿Qué cambiarías o mejorarías?</label><textarea id="mejora" name="Mejoras"></textarea></div>
+      </section>
+
+      <div class="submit-wrap">
+        <button class="submit" type="submit">Enviar respuestas</button>
+        <div class="success" id="success-msg">Formulario enviado correctamente.</div>
+        <div class="errorbox" id="error-msg">No se pudo enviar. Revisa tu access key o la configuración del servicio.</div>
+      </div>
+    </form>
+
+    <p class="footer-note">Consejo: si prefieres ver respuestas en una tabla, puedes usar Formspree dashboard o conectar un endpoint a Google Sheets mediante otro servicio intermedio.</p>
+  </div>
+</div>
+<script>
+(function(){
+  const t=document.querySelector('[data-theme-toggle]');
+  const r=document.documentElement;
+  let d=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+  r.setAttribute('data-theme',d);
+  t.addEventListener('click',()=>{d=d==='dark'?'light':'dark';r.setAttribute('data-theme',d);});
+})();
+
+const form = document.getElementById('fortia-form');
+form.addEventListener('submit', async function(e){
+  e.preventDefault();
+  const success = document.getElementById('success-msg');
+  const error = document.getElementById('error-msg');
+  success.style.display='none';
+  error.style.display='none';
+  const formData = new FormData(form);
+  try {
+    const response = await fetch(form.action, {
+      method: 'POST',
+      body: formData
+    });
+    const data = await response.json();
+    if (data.success) {
+      success.style.display='block';
+      form.reset();
+      window.scrollTo({top:document.body.scrollHeight, behavior:'smooth'});
+    } else {
+      error.style.display='block';
+    }
+  } catch (err) {
+    error.style.display='block';
+  }
+});
+</script>
+</body>
+</html>
